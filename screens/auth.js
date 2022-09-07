@@ -1,16 +1,37 @@
-import { useState } from "react";
-import { Image, StyleSheet, Text, TextInput, View, TouchableOpacity } from "react-native";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { Image, StyleSheet, Text, TextInput, View, TouchableOpacity, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {config, font} from "../config";
+import url from "../url";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Auth({ navigation }) {
 
-    const [username, setUsername] = useState("a");
-    const [password, setPassword]= useState("a");
+    const [username, setUsername] = useState("");
+    const [password, setPassword]= useState("");
     const [error, setError] = useState("");
+    const [ loading, setLoading]= useState(false);
 
+    const [ pageLoading, setPageLoading ] = useState(true);
+    const [ isLogged, setIsLogged ] = useState();
 
-    function submit() {
+    useEffect(() => {
+        const getStorage = async() => {
+            try {
+                const value = await AsyncStorage.getItem('@username')
+                if(value !== null) {
+                  navigation.navigate("home");
+                }
+            } catch(e) {
+                console.log("READING DATA: ", e);
+            }
+        }
+
+        getStorage();
+    },[])
+
+    async function submit() {
         setError("");
 
         if (!username.length > 0 || !password.length > 0){
@@ -18,7 +39,39 @@ export default function Auth({ navigation }) {
             return;
         }
         
-        navigation.navigate('home');
+        setLoading(true);
+        var data = JSON.stringify({
+            "username": username,
+            "password": password
+          });
+          
+          var config = {
+            method: 'post',
+            url: url + '/auth',
+            headers: { 
+              'Content-Type': 'application/json'
+            },
+            data : data
+          };
+          
+          axios(config)
+          .then(async function (response) {
+            const res = response.data;
+            if (res.success) {
+                await AsyncStorage.setItem('@username', username);
+                navigation.navigate("home");
+            }else{
+                setError(res.message);
+            }
+            setLoading(false);
+          })
+          .catch(function (error) {
+            console.log(error);
+            setError("Error while trying to make the request.")
+            setLoading(false);
+          });
+          
+          
     }
 
     return (
@@ -34,12 +87,13 @@ export default function Auth({ navigation }) {
                 <Text style={styles.inputLabel}>password</Text>
                 <TextInput style={styles.input} secureTextEntry onChangeText={e => setPassword(e)}/>
             </View>
+            {loading && <ActivityIndicator style={{ marginTop: 10 }} />}
             {error.length > 0 && <Text style={{ color: "red", marginTop: 10, fontFamily: font.italic }}>{error}</Text>}
             <View style={styles.actions} >
                 <TouchableOpacity onPress={() => submit()} activeOpacity={.7} style={styles.submitButton}>
                     <Text style={styles.submitButtonText}>START</Text>
                 </TouchableOpacity>
-                <Text onPress={() => console.log("forgot password ! ")} style={{ fontStyle: "italic", fontWeight: "600" ,color: config.secondColor }}>forgot password</Text>
+                <Text onPress={() => console.log("forgot password ! ")} style={{ fontStyle: "italic", fontWeight: "600" ,color: config.secondColor }}>forgot password ?</Text>
             </View>
         </SafeAreaView>
     )
@@ -86,7 +140,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-between",
         flexDirection: "row",
-        marginTop: 50,
+        marginTop: 30,
         width: 320
     },
     submitButton: {
