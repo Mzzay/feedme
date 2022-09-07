@@ -21,7 +21,7 @@ export default function RecipeDetail({ route, navigation }) {
                     shadowOpacity: .2,
                 }}>
                     <View style={{ display: "flex", alignItems: "center"}}>
-                        <Image source={data.picture} style={styles.topPicture} />
+                        <Image source={{ uri : data.picture }} style={styles.topPicture} />
                         <View style={styles.caloriesContainer}>
                             <Image source={require('../assets/icons/calories.png')} style={{ 
                                 height: 25,
@@ -35,7 +35,7 @@ export default function RecipeDetail({ route, navigation }) {
                     <Text style={styles.title}>{data.title}</Text>
                     <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent: "center"}}>
                     {
-                        data.label.map((l, index) => {
+                        JSON.parse(data.label).map((l, index) => {
                             return <View key={index} style={styles.labelContainer}><Text style={styles.label}>{l}</Text></View>
                         })
                     }
@@ -48,9 +48,9 @@ export default function RecipeDetail({ route, navigation }) {
                         fontSize: 16,
                         textAlign: "center",
                         marginBottom: 30
-                    }}>Perfect for the cut. Need fresh vegetables and at the same time find the benefits of chicken. Don't hesitate!</Text>
+                    }}>{data.description}</Text>
 
-                    <TouchableOpacity activeOpacity={.9} onPress={() => console.log("command !")} style={styles.orderButton}>
+                    <TouchableOpacity activeOpacity={.9} onPress={() => navigation.navigate('recipeorder', { content: data.title })} style={styles.orderButton}>
                         <Text style={{
                             textAlign: "center",
                             fontFamily: font.boldItalic,
@@ -61,19 +61,19 @@ export default function RecipeDetail({ route, navigation }) {
                     <View style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
                         <View>
                             <View style={styles.infoCircle}>
-                                <Text style={{ fontSize: 16, fontFamily: font.bold }}>21</Text>
+                                <Text style={{ fontSize: 16, fontFamily: font.bold }}>{data.proteines}</Text>
                             </View>
                             <Text style={{ textAlign: "center", fontFamily: font.boldItalic, marginTop: 5 }}>Proteines</Text>
                         </View>
                         <View>
                             <View style={styles.infoCircle}>
-                                <Text style={{ fontSize: 16, fontFamily: font.bold }}>12</Text>
+                                <Text style={{ fontSize: 16, fontFamily: font.bold }}>{data.lipids}</Text>
                             </View>
                             <Text style={{ textAlign: "center", fontFamily: font.boldItalic, marginTop: 5 }}>Lipids</Text>
                         </View>
                         <View>
                             <View style={styles.infoCircle}>
-                                <Text style={{ fontSize: 16, fontFamily: font.bold }}>14</Text>
+                                <Text style={{ fontSize: 16, fontFamily: font.bold }}>{data.carbs}</Text>
                             </View>
                             <Text style={{ textAlign: "center", fontFamily: font.boldItalic, marginTop: 5 }}>Carbs</Text>
                         </View>
@@ -81,14 +81,11 @@ export default function RecipeDetail({ route, navigation }) {
                     <Text style={{ color: config.mainColor, fontFamily: font.bold, fontSize: 18, marginTop: 20 }}>Ingredients</Text>
 
                     <View style={styles.ingredientContainer}>
-                        <Text style={styles.ingredientLabel}>Iceberg lettuce</Text>
-                        <Text style={styles.ingredientLabel}>Honey</Text>
-                        <Text style={styles.ingredientLabel}>Avocado</Text>
-                        <Text style={styles.ingredientLabel}>Nuts</Text>
-                        <Text style={styles.ingredientLabel}>Chicken fillet</Text>
-                        <Text style={styles.ingredientLabel}>Basil leaf</Text>
-                        <Text style={styles.ingredientLabel}>Cucumber</Text>
-                        <Text style={styles.ingredientLabel}>Lemon juice</Text>
+                        {
+                            JSON.parse(data.ingredients).map((i, index) => {
+                                return <Text style={styles.ingredientLabel} key={index}>{i}</Text>
+                            })
+                        }
                     </View>
 
             </ScrollView>
@@ -162,7 +159,8 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         flexWrap: "wrap",
-        paddingTop: 10
+        paddingTop: 10,
+        marginBottom: 20
     },
     ingredientLabel: {
         width: '50%',

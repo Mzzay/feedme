@@ -52,7 +52,7 @@ export default function HomeStack({ navigation, route }) {
                         <Image source={require('../assets/icons/account.png')} style={{ height: 30, width: 30, marginTop: 5 }} />
                     )
                 }
-            }} name="Account" component={Account} />
+            }} name="Account" component={Account}  />
         </Tab.Navigator>
     )
 }

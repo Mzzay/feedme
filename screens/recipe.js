@@ -1,7 +1,10 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
-import { Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, Text, ActivityIndicator, View } from "react-native";
+
 import DishesChoice from "../components/dishesChoice";
 import { font, config } from "../config";
+import url from "../url";
 
 export default function Recipe({ navigation }) {
     const [ calories, setCalories ] = useState();
@@ -10,8 +13,30 @@ export default function Recipe({ navigation }) {
     const [ lipids, setLipids ] = useState(15);
 
     useEffect(() => {
-        setCalories(proteines + carbs + lipids);
-    }, [ proteines, carbs, lipids])
+        setCalories(304);
+    }, [])
+
+    const [ data, setData ] = useState([]);
+    const [ loading, setLoading ] = useState(true);
+
+    useEffect(() => {
+        const getMenus = async() => {
+            const config = {
+                method: 'get',
+                url: `${url}/menu`,
+                headers: { 
+                  'Content-Type': 'application/json'
+                }
+            };
+            await axios(config).then(res => {
+                console.log(res.data)
+                setData(res.data.data);
+                setLoading(false);
+            }).catch(err => console.log(err));
+            
+        }
+        getMenus();
+    }, [])
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
@@ -29,18 +54,18 @@ export default function Recipe({ navigation }) {
                         <Text style={{ marginTop: 10, fontFamily: font.bold, fontSize: 18 }}>{calories}</Text>
                     </View>
                     <View style={{ marginLeft: 30 }}>
-                        <Text style={{ fontFamily: font.bold, fontSize: 16 }}>Proteines: {proteines}</Text>
-                        <Text style={{ fontFamily: font.bold, fontSize: 16 }}>Carbs: {carbs}</Text>
-                        <Text style={{ fontFamily: font.bold, fontSize: 16 }}>Lipids: {lipids}</Text>
+                        <Text style={{ fontFamily: font.bold, fontSize: 16 }}>Proteines: {proteines}g</Text>
+                        <Text style={{ fontFamily: font.bold, fontSize: 16 }}>Carbs: {carbs}g</Text>
+                        <Text style={{ fontFamily: font.bold, fontSize: 16 }}>Lipids: {lipids}g</Text>
                     </View>
                 </View>
                 <Text style={styles.subtitle}>OUR DISHES</Text>
                 <View style={{ height: 3, backgroundColor: config.mainColor, width: 90, marginBottom: 20 }}/>
                 
                 {
-                    fakeData.map(data => {
+                    loading ? <ActivityIndicator /> : data.map(d => {
                         return (
-                            <DishesChoice navigation={navigation} data={data} key={data.id} />
+                            <DishesChoice navigation={navigation} data={d} key={d.id} />
                         )
                     })
                 }
@@ -84,23 +109,3 @@ const styles = StyleSheet.create({
         paddingVertical: 25
     }
 })
-
-const fakeData = [{
-    id: 1,
-    picture: require(`../assets/static/salad1.jpg`),
-    calories: 304, 
-    label:["Cut"],
-    title: "CUCUMBER SALAD WITH AVOCADOS AND CHICKEN"
-},{
-    id: 2,
-    picture: require(`../assets/static/smooth.jpg`),
-    calories: 103, 
-    label:["Bulk", "Vegan"],
-    title: "TROPICAL SMOOTHIE"
-},{
-    id: 3,
-    picture: require(`../assets/static/pudding.jpg`),
-    calories: 179, 
-    label:["Balanced","Vegan"],
-    title: "MILLET AND RASPBERRY PROTEIN PUDDING"
-},]

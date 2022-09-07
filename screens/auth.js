@@ -13,9 +13,6 @@ export default function Auth({ navigation }) {
     const [error, setError] = useState("");
     const [ loading, setLoading]= useState(false);
 
-    const [ pageLoading, setPageLoading ] = useState(true);
-    const [ isLogged, setIsLogged ] = useState();
-
     useEffect(() => {
         const getStorage = async() => {
             try {
@@ -40,22 +37,22 @@ export default function Auth({ navigation }) {
         }
         
         setLoading(true);
-        var data = JSON.stringify({
+        const data = JSON.stringify({
             "username": username,
             "password": password
-          });
-          
-          var config = {
+        });
+        
+        const config = {
             method: 'post',
             url: url + '/auth',
             headers: { 
-              'Content-Type': 'application/json'
+                'Content-Type': 'application/json'
             },
             data : data
-          };
-          
-          axios(config)
-          .then(async function (response) {
+        };
+        
+        axios(config)
+        .then(async function (response) {
             const res = response.data;
             if (res.success) {
                 await AsyncStorage.setItem('@username', username);
@@ -64,12 +61,12 @@ export default function Auth({ navigation }) {
                 setError(res.message);
             }
             setLoading(false);
-          })
-          .catch(function (error) {
+        })
+        .catch(function (error) {
             console.log(error);
             setError("Error while trying to make the request.")
             setLoading(false);
-          });
+        });
           
           
     }
