@@ -6,10 +6,10 @@ I made the mobile app in 2 days.
 
 ## Screen 
 There is auth, home and stats screens. 
-![PAGE 1](https://github.com/mzzay/feedme/presentation/PAGE1.jpg)
+![PAGE 1](https://github.com/Mzzay/feedme/blob/master/presentation/PAGE1.jpg)
 
 There is recipe, detail of the recipe and account screens.
-![PAGE 2](https://github.com/mzzay/feedme/presentation/PAGE2.jpg)
+![PAGE 2](https://github.com/Mzzay/feedme/blob/master/presentation/PAGE2.jpg)
 
 ## Goal of the app
 The purpose of the application is to order meals adequate to its nutritional needs by the application and to pick it up.
