@@ -57,6 +57,8 @@ export default function Auth({ navigation }) {
             if (res.success) {
                 await AsyncStorage.setItem('@username', username);
                 navigation.navigate("home");
+                setPassword("");
+                setUsername("");
             }else{
                 setError(res.message);
             }
@@ -78,11 +80,11 @@ export default function Auth({ navigation }) {
             <Text style={styles.title}>AUTHENTIFICATION</Text>
             <View style={styles.inputContainer}>
                 <Text style={styles.inputLabel}>username</Text>
-                <TextInput style={styles.input} autoCapitalize='none' onChangeText={e => setUsername(e)}/>
+                <TextInput style={styles.input} value={username} autoCapitalize='none' onChangeText={e => setUsername(e)}/>
             </View>
             <View style={styles.inputContainer}>
                 <Text style={styles.inputLabel}>password</Text>
-                <TextInput style={styles.input} secureTextEntry onChangeText={e => setPassword(e)}/>
+                <TextInput style={styles.input} value={password} secureTextEntry onChangeText={e => setPassword(e)}/>
             </View>
             {loading && <ActivityIndicator style={{ marginTop: 10 }} />}
             {error.length > 0 && <Text style={{ color: "red", marginTop: 10, fontFamily: font.italic }}>{error}</Text>}

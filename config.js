@@ -1,7 +1,9 @@
 export const config = {
     mainColor: "#DBB78F",
     secondColor: "#AEAEAE",
-    lightGray: "#EAEAEA" 
+    lightGray: "#EAEAEA",
+    green: "#61C9A8",
+    lightGreen: "#AFE3D3"
 };
 
 export const font = {

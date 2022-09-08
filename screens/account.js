@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import axios from "axios";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Button, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Command from "../components/command";
 import { config, font } from "../config";
 import url from "../url";
@@ -12,6 +12,7 @@ import RecipeInfo from "./recipeInfo";
 import RecipeOrder from "./recipeOrder";
 
 export default function Account({ route, navigation }) {
+    const { GoAuth } = route.params;
     
     const [ userData, setUserData ] = useState(null);
     const [ error, setError ] = useState("");
@@ -117,6 +118,15 @@ export default function Account({ route, navigation }) {
         if (hasPermission === false) {
             return <Text>No access to camera</Text>;
         }
+
+        async function Logout() {
+            try {
+                await AsyncStorage.removeItem("@username");
+                GoAuth();
+            }catch(err) {
+                console.log(err);
+            }
+        } 
         return (
             <SafeAreaView style={{ flex: 1, display: "flex" }}>
             {
@@ -139,11 +149,16 @@ export default function Account({ route, navigation }) {
                 style={StyleSheet.absoluteFillObject}
             /></> :
                 <>
-                <Image style={styles.logo} source={require('../assets/logo_long.png')} />
+                <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                    <Image style={styles.logo} source={require('../assets/logo_long.png')} />
+                    <TouchableOpacity onPress={() => Logout()}>
+                        <Image source={require('../assets/icons/logout.png')} style={{ height: 20, width: 20, marginRight: 30 , resizeMode: 'contain' }} />
+                    </TouchableOpacity>
+                </View>
                 <ScrollView style={{ paddingHorizontal: 25 }}>
                     {
                         loading ? <View style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}><ActivityIndicator /></View> : 
-                        userData && (
+                        userData ? (
                             <>
                             <Text style={styles.subtitle}>MY PROFILE</Text>
                             <View style={{ height: 3, backgroundColor: config.mainColor, width: 75, marginBottom: 20 }}/>
@@ -190,7 +205,7 @@ export default function Account({ route, navigation }) {
                             }
                             
                             {
-                                userData.isAdmin && (
+                                userData.isAdmin ? (
                                     <>
                                         <Text style={styles.subtitle}>SCAN</Text>
                                         <View style={{ height: 3, backgroundColor: config.mainColor, width: 25, marginBottom: 20 }}/>
@@ -200,10 +215,10 @@ export default function Account({ route, navigation }) {
                                             </TouchableOpacity>
                                         </View>
                                     </>
-                                )
+                                ) : null 
                             }
                             </>
-                        )
+                        ) : null
                     }
                 </ScrollView>
                 </>
