@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import axios from "axios";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Button, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Command from "../components/command";
 import { config, font } from "../config";
 import url from "../url";

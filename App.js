@@ -1,10 +1,13 @@
-import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Auth from './screens/auth';
 import HomeStack from './components/homestack';
 import { useFonts } from 'expo-font';
 import { StatusBar } from 'expo-status-bar';
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs([ 'Non-serializable values were found in the navigation state', ]);
+
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -34,12 +37,3 @@ export default function App() {
 }
 
 const Stack = createNativeStackNavigator();
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

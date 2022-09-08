@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, Text, ActivityIndicator, View } from "react-native";
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, ActivityIndicator, View } from "react-native";
 
 import DishesChoice from "../components/dishesChoice";
 import { font, config } from "../config";
@@ -29,7 +29,6 @@ export default function Recipe({ navigation }) {
                 }
             };
             await axios(config).then(res => {
-                console.log(res.data)
                 setData(res.data.data);
                 setLoading(false);
             }).catch(err => console.log(err));
