@@ -1,4 +1,5 @@
-import { Button, Image, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { Button, Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+import { DetailsBlock, InfoBlock } from "../components/StatsComponents";
 import {config, font} from "../config"
 
 export default function Stats() {
@@ -8,6 +9,8 @@ export default function Stats() {
         <SafeAreaView style={{ flex: 1 }}>
             <Image style={styles.logo} source={require('../assets/logo_long.png')} />
             <View style={styles.container}>
+                <Text style={styles.subtitle}>MY STATS</Text>
+                <View style={{ height: 3, backgroundColor: config.mainColor, width: 65, marginBottom: 20 }}/>
                 <View style={styles.top}>
                     <View style={{ flex: 1 }}>
                         <Text style={{ fontFamily: font.bold, textAlign: "center" }}>1448</Text>
@@ -27,32 +30,20 @@ export default function Stats() {
                 </View>
             </View>
             <View style={styles.main}>
-                <View>
-                    <Text style={{ textAlign: "center", fontFamily: font.semibold }}>PROTEINES</Text>
-                    <ProgressBar percent={50} />
-                </View>
-                <View>
-                    <Text style={{ textAlign: "center", fontFamily: font.semibold }}>LIPIDS</Text>
-                    <ProgressBar percent={60} />
-                </View>
-                <View>
-                    <Text style={{ textAlign: "center", fontFamily: font.semibold }}>CARBS</Text>
-                    <ProgressBar percent={70} />
-                </View>
+                <InfoBlock name="PROTEINES" value="171 / 328g" percent={55} />
+                <InfoBlock name="LIPIDS" value="79 / 131g" percent={65} />
+                <InfoBlock name="CARBS" value="53 / 87gg" percent={80} />
             </View>
+            <ScrollView style={styles.details}>
+                <Text style={styles.subtitle}>DETAILS</Text>
+                <View style={{ height: 3, backgroundColor: config.mainColor, width: 55, marginBottom: 20 }}/>
+                <DetailsBlock name="IMC" value="19.5" />
+                <DetailsBlock name="Masse grasse" value="9.6" percent />
+                <DetailsBlock name="Masse hydrique" value="62.7" percent />
+                <DetailsBlock name="Masse musculaire" value="85.9" percent />
+                <DetailsBlock name="Masse osseuse" value="4.5" percent />
+            </ScrollView>
         </SafeAreaView>
-    )
-}
-
-function ProgressBar({ percent }) {
-    return (
-        <View style={styles.progress}>
-            <View style={{ width: percent, height: '100%',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        bottom: 0, backgroundColor: config.green }}></View>
-        </View>
     )
 }
 
@@ -74,7 +65,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "row",
-        marginTop: 20
+        marginTop: 0
     },
     circleContainer: { flex: 1, display: "flex", alignItems: "center" },
     circleContent: {
@@ -88,11 +79,9 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center"
     },
-    progress: {
-        height: 3,
-        width: 100,
-        backgroundColor: config.lightGreen,
-        marginTop: 5
-    },
-    main : { paddingHorizontal: 25, marginTop: 20, display:"flex", alignItems: "center", justifyContent: "space-between", flexDirection: "row" }
+    main : { paddingHorizontal: 25, marginTop: 20, display:"flex", alignItems: "center", justifyContent: "space-between", flexDirection: "row" },
+    details: {
+        paddingHorizontal: 25,
+        marginTop: 30
+    }
 })

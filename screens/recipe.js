@@ -4,7 +4,7 @@ import { Image, SafeAreaView, ScrollView, StyleSheet, Text, ActivityIndicator, V
 
 import DishesChoice from "../components/dishesChoice";
 import { font, config } from "../config";
-import url from "../url";
+import { http_url } from "../url";
 
 export default function Recipe({ navigation }) {
     const [ calories, setCalories ] = useState();
@@ -23,7 +23,7 @@ export default function Recipe({ navigation }) {
         const getMenus = async() => {
             const config = {
                 method: 'get',
-                url: `${url}/menu`,
+                url: `${http_url}/menu`,
                 headers: { 
                   'Content-Type': 'application/json'
                 }

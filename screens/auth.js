@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, TextInput, View, TouchableOpacity, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {config, font} from "../config";
-import url from "../url";
+import { http_url } from "../url";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Auth({ navigation }) {
@@ -44,7 +44,7 @@ export default function Auth({ navigation }) {
         
         const config = {
             method: 'post',
-            url: url + '/auth',
+            url: http_url + '/auth',
             headers: { 
                 'Content-Type': 'application/json'
             },

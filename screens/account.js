@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { ActivityIndicator, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Command from "../components/command";
 import { config, font } from "../config";
-import url from "../url";
+import { http_url } from "../url";
 import RecipeInfo from "./recipeInfo";
 import RecipeOrder from "./recipeOrder";
 
@@ -39,7 +39,7 @@ export default function Account({ route, navigation }) {
 
             const config = {
                 method: 'get',
-                url: `${url}/user/${username}`,
+                url: `${http_url}/user/${username}`,
                 headers: { 
                   'Content-Type': 'application/json'
                 }
@@ -67,7 +67,7 @@ export default function Account({ route, navigation }) {
 
     const getUserCommands = async() => {
         const username = await AsyncStorage.getItem('@username')
-        await axios.get(`${url}/${username}/commands`)
+        await axios.get(`${http_url}/${username}/commands`)
                     .then(res => {
                         setCommands(res.data.data);
                     })
@@ -171,7 +171,7 @@ export default function Account({ route, navigation }) {
                                 </View>
                             </View>
                             <Text style={styles.subtitle}>MY SUBSCRIPTION</Text>
-                            <View style={{ height: 3, backgroundColor: config.mainColor, width: 125, marginBottom: 20 }}/>
+                            <View style={{ height: 3, backgroundColor: config.mainColor, width: 125, marginBottom: 10 }}/>
                             <Text style={{ color: config.secondColor, fontFamily: font.italic, fontSize: 14 }}>06/09/2022 - 06/10/2022</Text>
                             <View style={{
                                 display: "flex",

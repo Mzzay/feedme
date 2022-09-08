@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { config, font } from "../config";
-import url from "../url";
+import { http_url } from "../url";
 
 export default function RecipeInfo({ navigation, route }) {
     const [ data, setData ] = useState(null);
@@ -15,7 +15,7 @@ export default function RecipeInfo({ navigation, route }) {
 
     useEffect(() => {
         const getRecipe = async() => {
-            axios(`${url}/command/${id}`)
+            axios(`${http_url}/command/${id}`)
             .then(res => {
                 console.log(res.data.data);
                 setData(res.data.data);
@@ -29,7 +29,7 @@ export default function RecipeInfo({ navigation, route }) {
     async function CollectCommand() {
         const config = {
             method: "get",
-            url: `${url}/command/collect/${id}`
+            url: `${http_url}/command/collect/${id}`
         }
 
         setLoading(true)

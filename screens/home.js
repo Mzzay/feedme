@@ -7,7 +7,7 @@ export default function Home() {
             <Image style={styles.logo} source={require('../assets/logo_long.png')} />
             <ScrollView style={styles.container}>
                 <Text style={styles.subtitle}>NEWS</Text>
-                <View style={{ height: 3, backgroundColor: config.mainColor, width: 25, marginBottom: 20 }}/>
+                <View style={{ height: 3, backgroundColor: config.mainColor, width: 40, marginBottom: 20 }}/>
                 <ImageBackground borderRadius={5} style={styles.newsContainer} source={require('../assets/static/basicfit.jpg')} resizeMode="cover">
                     <View style={styles.newsTextContainer}>
                         <Text style={styles.newsTextContent}>Nouvelle salle basic fit !</Text>
