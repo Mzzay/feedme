@@ -1,4 +1,4 @@
-import { ActivityIndicator, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, Animated, Image, Modal, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { config, font } from "../config";
 import Barcode from 'react-native-barcode-expo';
 import { useEffect, useRef, useState } from "react";
@@ -19,7 +19,6 @@ export default function RecipeOrder({ route, navigation }) {
         if (mode != "NEW") {
             ws.current = new WebSocket(ws_url);
             ws.current.onopen = () => {
-                console.log("connection has been established")
                 const jsonData = JSON.stringify({
                     mode: "SHOW",
                     id: data.id
@@ -38,7 +37,7 @@ export default function RecipeOrder({ route, navigation }) {
             const wsCurrent = ws.current;
 
             return () => {
-                // wsCurrent.close();
+                wsCurrent.close();
             };
         }
     }, [])
@@ -79,9 +78,7 @@ export default function RecipeOrder({ route, navigation }) {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            {
-                popUp ? <PopUp /> : null
-            }
+            <PopUp />
             <Image style={styles.logo} source={require('../assets/logo_long.png')} />
             <TouchableOpacity activeOpacity={.9} onPress={() => navigation.goBack()} style={{ display: "flex", flexDirection: "row", alignItems: "center", height: 24, marginBottom: 10}}>
                 <Image source={require('../assets/icons/backarrow.png')}
@@ -99,6 +96,23 @@ export default function RecipeOrder({ route, navigation }) {
             </View>
         </SafeAreaView>
     )
+
+
+    function PopUp() {
+        return (
+            <Modal
+            animationType="fade"
+            transparent={true}
+            visible={popUp}>
+            <View style={styles.popupContainer}>
+              <View style={styles.popupContent}>
+                <Image source={require('../assets/icons/check.png')} style={styles.icon} />
+                <Text style={styles.popupText}>YEAHHH !</Text>
+              </View>
+            </View>
+          </Modal>
+        )
+    }
 }
 
 function ValidationCommand() {
@@ -110,16 +124,6 @@ function ValidationCommand() {
     )
 }
 
-function PopUp() {
-    return (
-        <View style={styles.popupContainer}>
-            <View style={styles.popupContent}>
-                <Image source={require('../assets/icons/check.png')} style={styles.icon} />
-                <Text style={styles.popupText}>YEAHHH !</Text>
-            </View>
-        </View>
-    )
-}
 
 const styles = StyleSheet.create({
     logo : {
