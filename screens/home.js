@@ -6,10 +6,6 @@ import * as Location from 'expo-location';
 
 export default function Home() {
 
-    const [ locationResult, setLocation ] = useState( null )
-    const [ mapRegion, setRegion ] = useState( null )
-    const [ hasLocationPermissions, setLocationPermission ] = useState( false )
-
     useEffect(() => {
         (async () => {
             let { status } = await Location.requestForegroundPermissionsAsync();
@@ -120,9 +116,9 @@ const styles = StyleSheet.create({
             height: 5,
         },
         shadowOpacity: 0.2,
+        marginBottom: 20,
     },
     map: {
-        marginBottom: 20,
         height: 175,
         borderRadius: 5,
     }    

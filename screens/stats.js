@@ -37,11 +37,11 @@ export default function Stats() {
             <ScrollView style={styles.details}>
                 <Text style={styles.subtitle}>DETAILS</Text>
                 <View style={{ height: 3, backgroundColor: config.mainColor, width: 55, marginBottom: 20 }}/>
-                <DetailsBlock name="IMC" value="19.5" />
-                <DetailsBlock name="Masse grasse" value="9.6" percent />
-                <DetailsBlock name="Masse hydrique" value="62.7" percent />
-                <DetailsBlock name="Masse musculaire" value="85.9" percent />
-                <DetailsBlock name="Masse osseuse" value="4.5" percent />
+                <DetailsBlock name="BMI" value="19.5" />
+                <DetailsBlock name="Fat mass" value="9.6" percent />
+                <DetailsBlock name="Body water" value="62.7" percent />
+                <DetailsBlock name="Muscular mass" value="85.9" percent />
+                <DetailsBlock name="Bone mass" value="4.5" percent />
             </ScrollView>
         </SafeAreaView>
     )
